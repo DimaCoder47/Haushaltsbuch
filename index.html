@@ -129,6 +129,17 @@
     <script src="data.js"></script>
     <script src="ui.js"></script>
     <script src="app.js"></script>
+
+    <!-- Service Worker Registrierung -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('./serviceWorker.js')
+            .then(() => console.log('Service Worker registriert!'))
+            .catch(err => console.log('Service Worker Fehler:', err));
+        });
+      }
+    </script>
 </body>
 
 </html>
