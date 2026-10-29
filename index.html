@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="theme-color" content="#1e1e1e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="privates Haushaltsbuch">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <link rel="icon" type="image/png" href="android-chrome-512x512.png" sizes="512x512">
+    <link rel="icon" type="image/png" href="android-chrome-192x192.png" sizes="192x192">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <link rel="manifest" href="manifest.json">
+
+    <title>privates Haushaltsbuch</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Chart.js CDN für die Grafik -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- html2pdf.js CDN für clientseitigen PDF-Download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+    <!-- SETUP WIZARD (3 Stufen Formular) -->
+    <div id="setup-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2 id="wizard-title">privates Haushaltsbuch Setup</h2>
+            <div id="wizard-body">
+                <!-- Wird dynamisch durch den JS-Wizard befüllt -->
+            </div>
+        </div>
+    </div>
+
+    <!-- HAUPTSEITE -->
+    <div class="container" id="pdf-container">
+        <header class="no-print">
+            <h1>privates Haushaltsbuch</h1>
+            <div class="header-actions">
+                <button id="wizard-restart-btn" class="btn-secondary">Setup-Assistent starten</button>
+                <button id="reset-btn" class="btn-danger">Auf Standard zurücksetzen</button>
+            </div>
+        </header>
+
+        <div class="info-banner no-print">
+            Tipp: Klicke auf markierte Werte oder Namen, um sie direkt zu bearbeiten.
+        </div>
+
+        <!-- Persönliche Daten für Bank-Nachweis / Ausdruck -->
+        <section class="card">
+            <h2>Persönliche Daten</h2>
+            <div class="settings-grid">
+                <div class="setting-item" style="width: 100%;">
+                    <span>Vor- und Nachname:</span>
+                    <input type="text" id="inputName" class="neon-input" style="flex-grow: 1;" placeholder="Max Mustermann">
+                </div>
+                <div class="setting-item" style="width: 100%;">
+                    <span>Anschrift:</span>
+                    <input type="text" id="inputAdresse" class="neon-input" style="flex-grow: 1;" placeholder="Musterstraße 1, 12345 Musterstadt">
+                </div>
+            </div>
+        </section>
+
+        <!-- Aktueller Kontostand & Start-Monat -->
+        <section class="card">
+            <h2>Aktueller Kontostand</h2>
+            <div class="settings-grid">
+                <div class="setting-item" style="width: 100%;">
+                    <span>Kontostand:</span>
+                    <div>
+                        <span class="editable-value" contenteditable="true" id="startKontostandSpan">1500.00</span>
+                    </div>
+                </div>
+                <div class="setting-item" style="width: 100%;">
+                    <span>Start-Monat:</span>
+                    <select id="startMonatSelect" class="neon-select compact-select">
+                        <option value="1">Januar</option>
+                        <option value="2">Februar</option>
+                        <option value="3">März</option>
+                        <option value="4">April</option>
+                        <option value="5">Mai</option>
+                        <option value="6">Juni</option>
+                        <option value="7">Juli</option>
+                        <option value="8">August</option>
+                        <option value="9">September</option>
+                        <option value="10">Oktober</option>
+                        <option value="11">November</option>
+                        <option value="12">Dezember</option>
+                    </select>
+                </div>
+                <div class="setting-item" style="width: 100%;">
+                    <span>Start-Jahr:</span>
+                    <input type="number" id="startJahrInput" class="neon-input compact-input" value="2026">
+                </div>
+            </div>
+        </section>
+
+        <!-- Monatliche Einnahmen -->
+        <section class="card print-section">
+            <h2>Monatliche Einnahmen</h2>
+            <ul id="list-monatlicheEinnahmen" class="editable-list"></ul>
+            <button class="btn-small btn-primary no-print" onclick="App.addItem('monatlicheEinnahmen')">+ Einnahme hinzufügen</button>
+        </section>
+
+        <!-- Monatliche Fixkosten -->
+        <section class="card print-section">
+            <h2>Monatliche Fixkosten</h2>
+            <ul id="list-monatlicheFixkosten" class="editable-list"></ul>
+            <button class="btn-small btn-primary no-print" onclick="App.addItem('monatlicheFixkosten')">+ Fixkosten hinzufügen</button>
+        </section>
+
+        <!-- Unregelmäßige Fixkosten -->
+        <section class="card print-section">
+            <h2>Unregelmäßige Fixkosten</h2>
+            <ul id="list-unregelmaessigeFixkosten" class="editable-list"></ul>
+            <button class="btn-small btn-primary no-print" onclick="App.addItem('unregelmaessigeFixkosten')">+ Unregelmäßige Kosten hinzufügen</button>
+        </section>
+
+        <!-- 12-Monate-Prognose (Grafik & Tabelle) -->
+        <section class="card print-section">
+            <h2>12-Monate-Prognose</h2>
+            <div class="chart-container print-chart">
+                <canvas id="prognoseChart"></canvas>
+            </div>
+            
+            <div style="margin: 20px 0; text-align: right; display: flex; justify-content: flex-end; gap: 10px;" class="no-print">
+                <button class="btn-primary" onclick="window.print()">🖨️ Tabelle als PDF / Drucken</button>
+                <button class="btn-primary" id="download-pdf-btn">💾 Tabelle als PDF / Download</button>
+            </div>
+
+            <div class="table-responsive">
+                <table id="prognose-table">
+                    <thead>
+                        <tr>
+                            <th>Monat |</th>
+                            <th>Monatsbilanz |</th>
+                            <th>Kontostand (Endstand) |</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Druck- & PDF-Export-Footer (innerhalb von #pdf-container für den html2pdf Export) -->
+        <div id="print-footer" class="print-only">
+            <span id="print-footer-name"></span> | <span id="print-footer-adresse"></span>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="ui.js"></script>
+    <script src="app.js"></script>
+    <!-- Service Worker Registrierung -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./serviceWorker.js')
+                    .then(() => console.log('Service Worker registriert!'))
+                    .catch(err => console.log('Service Worker Fehler:', err));
+            });
+        }
+    </script>
+</body>
+
+</html>

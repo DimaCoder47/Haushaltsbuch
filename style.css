@@ -1,0 +1,735 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-dark: #0b0f19;
+    --card-bg: #131c2e;
+    --neon-cyan: #00f0ff;
+    --neon-pink: #ff007f;
+    --neon-orange: #ff9f0a;
+    --text-main: #e2e8f0;
+    --text-muted: #94a3b8;
+    --border-color: #1e293b;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 950px;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.header-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 240, 255, 0.05);
+    border: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.category-sum {
+    text-align: right;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--text-main);
+}
+
+.category-sum span {
+    color: var(--neon-cyan);
+}
+
+h1, h2, h3 {
+    margin-top: 0;
+    color: var(--neon-cyan);
+    text-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+}
+
+.info-banner {
+    background-color: rgba(255, 159, 10, 0.1);
+    border-left: 4px solid var(--neon-orange);
+    color: #ffd60a;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.settings-grid {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.neon-select, .neon-input {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 6px 10px;
+    border-radius: 6px;
+}
+
+/* Kompakte Inputs für Kontostand/Monat/Jahr */
+.compact-input {
+    width: 120px;
+}
+
+.compact-select {
+    width: 140px;
+}
+
+.editable, .editable-name, .editable-value {
+    background-color: rgba(0, 240, 255, 0.1);
+    border-bottom: 1px dashed var(--neon-cyan);
+    padding: 2px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--neon-cyan);
+}
+
+.editable:hover, .editable-name:hover, .editable-value:hover {
+    background-color: var(--neon-cyan);
+    color: var(--bg-dark);
+}
+
+.editable-monat {
+    background-color: rgba(0, 240, 255, 0.1);
+    border-bottom: 1px dashed var(--neon-cyan);
+    padding: 2px 3px;
+    border-radius: 4px;
+    cursor: pointer;
+    color: var(--neon-cyan);
+    display: inline-block;
+    text-align: center;
+    width: 24px;
+}
+
+.editable-value::after {
+    content: " €";
+}
+
+.editable:hover, .editable-name:hover, .editable-value:hover, .editable-monat:hover {
+    background-color: var(--neon-cyan);
+    color: var(--bg-dark);
+}
+
+ul.editable-list, ul.wizard-list {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+ul.editable-list li, ul.wizard-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    flex-wrap: wrap;
+}
+
+ul.editable-list li span, ul.wizard-list li input[type="text"] {
+    flex-grow: 1;
+}
+
+.empty-hint {
+    color: var(--text-muted);
+    font-style: italic;
+    margin: 5px 0;
+}
+
+.chart-container {
+    position: relative;
+    height: 300px;
+    width: 100%;
+}
+
+input[type="number"], input[type="text"] {
+    background-color: var(--bg-dark);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    padding: 8px;
+    border-radius: 6px;
+}
+
+input:focus, select:focus {
+    border-color: var(--neon-cyan);
+    outline: none;
+    box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: bold;
+    transition: all 0.2s ease;
+}
+
+.btn-primary {
+    background-color: var(--neon-cyan);
+    color: var(--bg-dark);
+    box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: #00c2cc;
+    box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+.btn-secondary {
+    background-color: #1e293b;
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background-color: #334155;
+    border-color: var(--text-muted);
+}
+
+.btn-danger {
+    background-color: rgba(255, 0, 127, 0.2);
+    color: var(--neon-pink);
+    border: 1px solid var(--neon-pink);
+}
+
+.btn-danger:hover {
+    background-color: var(--neon-pink);
+    color: #fff;
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.5);
+}
+
+.btn-small {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(11, 15, 25, 0.85);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-content {
+    background: var(--card-bg);
+    border: 1px solid var(--neon-cyan);
+    padding: 30px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+    max-height: 85vh;
+    overflow-y: auto;
+}
+
+.wizard-buttons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.table-responsive {
+    display: flex;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+#prognose-table {
+    width: 100%;
+    max-width: 700px;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#prognose-table th, 
+#prognose-table td {
+    padding: 14px 30px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#prognose-table th:nth-child(1),
+#prognose-table td:nth-child(1) {
+    text-align: left;
+}
+
+#prognose-table th:nth-child(2),
+#prognose-table td:nth-child(2) {
+    text-align: center;
+}
+
+#prognose-table th:nth-child(3),
+#prognose-table td:nth-child(3) {
+    text-align: right;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+}
+
+th {
+    background-color: #1e293b;
+    color: var(--neon-orange);
+    text-shadow: 0 0 8px rgba(255, 159, 10, 0.3);
+}
+
+strong {
+    color: var(--neon-cyan);
+}
+
+.bilanz-positiv {
+    color: var(--neon-orange);
+    font-weight: bold;
+}
+
+.bilanz-negativ {
+    color: var(--neon-pink);
+    font-weight: bold;
+}
+
+/* Hilfsklassen */
+.print-cell-name, .print-cell-value {
+    display: none;
+}
+
+.print-only {
+    display: none;
+}
+
+#prognoseChartImg {
+    max-width: 100%;
+    height: auto;
+    display: none;
+}
+
+/* ==========================================================================
+   DRUCK-LAYOUT (@media print)
+   ========================================================================== */
+
+@media print {
+    @page {
+        margin: 12mm 15mm;
+        size: portrait;
+    }
+
+    body {
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .container {
+        max-width: 100% !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 2px !important;
+    }
+    
+    .no-print {
+        display: none !important;
+    }
+
+    .print-section {
+        display: block !important;
+    }
+
+    .card {
+        background: #ffffff !important;
+        border: 1px solid #000000 !important;
+        box-shadow: none !important;
+        color: #000000 !important;
+        margin-bottom: 15px !important;
+        page-break-inside: auto;
+        break-inside: auto;
+    }
+
+    .print-chart {
+        display: block !important;
+        height: auto !important;
+        min-height: 200px !important;
+        width: 100% !important;
+        margin-bottom: 20px !important;
+        overflow: visible !important;
+    }
+
+    #prognoseChartImg {
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 auto !important;
+    }
+
+    .table-responsive {
+        display: block !important;
+        width: 100% !important;
+        margin-top: 30px !important;
+        overflow: visible !important;
+    }
+
+    #prognose-table {
+        width: 100% !important;
+        max-width: 100% !important;
+        page-break-inside: auto;
+        break-inside: auto;
+    }
+
+    #prognose-table thead {
+        display: table-header-group !important;
+    }
+
+    #prognose-table tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+
+    #prognose-table th {
+        border-bottom: 2px solid #000000 !important;
+        padding: 10px 12px !important;
+        vertical-align: bottom !important;
+        background-color: #ffffff !important;
+    }
+
+    #prognose-table td {
+        border-bottom: 1px solid #000000 !important;
+        padding: 8px 12px !important;
+    }
+
+    .screen-only {
+        display: none !important;
+    }
+
+    .print-cell-name {
+        display: inline-block !important;
+        width: 70%;
+        font-weight: bold;
+    }
+
+    .print-cell-value {
+        display: inline-block !important;
+        width: 25%;
+        text-align: right;
+        font-weight: bold;
+    }
+
+    ul.editable-list li {
+        display: flex !important;
+        justify-content: space-between !important;
+        border-bottom: 1px solid #cccccc !important;
+        padding: 6px 0 !important;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .category-sum {
+        text-align: right !important;
+        font-weight: bold !important;
+        border-top: 2px solid #000000 !important;
+        margin-top: 10px !important;
+        padding-top: 6px !important;
+    }
+
+    .category-sum .sum-value {
+        display: inline-block;
+        min-width: 100px;
+        text-align: right;
+    }
+
+    *, h1, h2, h3, strong, .category-sum span, .editable, 
+    .bilanz-positiv, .bilanz-negativ, th, td, 
+    input#inputName, input#inputAdresse, select#startMonatSelect, input#startJahrInput, #startKontostandSpan {
+        color: #000000 !important;
+        background-color: transparent !important;
+        background: transparent !important;
+        text-shadow: none !important;
+        border-color: #000000 !important;
+    }
+
+    h1, h2, h3 {
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+    
+    .card .settings-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 8px !important;
+    }
+
+    .card .settings-grid .setting-item {
+        width: 100% !important;
+    }
+    
+    input#inputName, 
+    input#inputAdresse,
+    select#startMonatSelect,
+    input#startJahrInput,
+    #startKontostandSpan {
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+        font-size: 11pt !important;
+        font-weight: bold !important;
+        padding: 0 !important;
+        width: auto !important;
+        appearance: none;
+        -webkit-appearance: none;
+    }
+    
+    .print-only {
+        display: block !important;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #ffffff !important;
+        font-size: 8pt;
+        color: #000000 !important;
+        border-top: 1px solid #000000;
+        padding-top: 5px;
+        text-align: left;
+        z-index: 9999;
+    }
+}
+
+/* ==========================================================================
+   DOWNLOAD-PDF LAYOUT (Identisch zu @media print mit Rand-Sicherheit)
+   ========================================================================== */
+
+body.pdf-exporting {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+body.pdf-exporting .container {
+    max-width: 100% !important;
+    width: calc(100% - 8px) !important;
+    margin: 0 auto !important;
+    padding: 0 4px !important;
+}
+
+body.pdf-exporting .no-print {
+    display: none !important;
+}
+
+body.pdf-exporting .print-section {
+    display: block !important;
+}
+
+body.pdf-exporting .card {
+    background: #ffffff !important;
+    border: 1px solid #000000 !important;
+    box-shadow: none !important;
+    color: #000000 !important;
+    margin-bottom: 15px !important;
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+}
+
+body.pdf-exporting .print-chart {
+    display: block !important;
+    height: auto !important;
+    min-height: 200px !important;
+    width: 100% !important;
+    margin-bottom: 20px !important;
+    overflow: visible !important;
+}
+
+body.pdf-exporting #prognoseChartImg {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    margin: 0 auto !important;
+}
+
+body.pdf-exporting .table-responsive {
+    display: block !important;
+    width: 100% !important;
+    margin-top: 30px !important;
+    overflow: visible !important;
+}
+
+body.pdf-exporting #prognose-table {
+    width: 100% !important;
+    max-width: 100% !important;
+    page-break-inside: auto !important;
+    break-inside: auto !important;
+}
+
+body.pdf-exporting #prognose-table thead {
+    display: table-header-group !important;
+}
+
+body.pdf-exporting #prognose-table tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+}
+
+body.pdf-exporting #prognose-table th {
+    border-bottom: 2px solid #000000 !important;
+    padding: 10px 12px !important;
+    vertical-align: bottom !important;
+    background-color: #ffffff !important;
+}
+
+body.pdf-exporting #prognose-table td {
+    border-bottom: 1px solid #000000 !important;
+    padding: 8px 12px !important;
+}
+
+body.pdf-exporting .screen-only {
+    display: none !important;
+}
+
+body.pdf-exporting .print-cell-name {
+    display: inline-block !important;
+    width: 70%;
+    font-weight: bold;
+}
+
+body.pdf-exporting .print-cell-value {
+    display: inline-block !important;
+    width: 25%;
+    text-align: right;
+    font-weight: bold;
+}
+
+body.pdf-exporting ul.editable-list li {
+    display: flex !important;
+    justify-content: space-between !important;
+    border-bottom: 1px solid #cccccc !important;
+    padding: 6px 0 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+}
+
+body.pdf-exporting .category-sum {
+    text-align: right !important;
+    font-weight: bold !important;
+    border-top: 2px solid #000000 !important;
+    margin-top: 10px !important;
+    padding-top: 6px !important;
+}
+
+body.pdf-exporting .category-sum .sum-value {
+    display: inline-block;
+    min-width: 100px;
+    text-align: right;
+}
+
+body.pdf-exporting *, 
+body.pdf-exporting h1, 
+body.pdf-exporting h2, 
+body.pdf-exporting h3, 
+body.pdf-exporting strong, 
+body.pdf-exporting .category-sum span, 
+body.pdf-exporting .editable, 
+body.pdf-exporting .bilanz-positiv, 
+body.pdf-exporting .bilanz-negativ, 
+body.pdf-exporting th, 
+body.pdf-exporting td, 
+body.pdf-exporting input#inputName, 
+body.pdf-exporting input#inputAdresse, 
+body.pdf-exporting select#startMonatSelect, 
+body.pdf-exporting input#startJahrInput, 
+body.pdf-exporting #startKontostandSpan {
+    color: #000000 !important;
+    background-color: transparent !important;
+    background: transparent !important;
+    text-shadow: none !important;
+    border-color: #000000 !important;
+}
+
+body.pdf-exporting h1, 
+body.pdf-exporting h2, 
+body.pdf-exporting h3 {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+}
+
+body.pdf-exporting .card .settings-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+}
+
+body.pdf-exporting .card .settings-grid .setting-item {
+    width: 100% !important;
+}
+
+body.pdf-exporting input#inputName, 
+body.pdf-exporting input#inputAdresse, 
+body.pdf-exporting select#startMonatSelect, 
+body.pdf-exporting input#startJahrInput, 
+body.pdf-exporting #startKontostandSpan {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    font-size: 11pt !important;
+    font-weight: bold !important;
+    padding: 0 !important;
+    width: auto !important;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+body.pdf-exporting .print-only {
+    display: block !important;
+    position: relative;
+    width: 100%;
+    background-color: #ffffff !important;
+    font-size: 8pt;
+    color: #000000 !important;
+    border-top: 1px solid #000000;
+    padding-top: 8px;
+    margin-top: 25px;
+    text-align: left;
+}
